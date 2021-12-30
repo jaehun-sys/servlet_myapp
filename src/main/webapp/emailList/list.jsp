@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="emailList.*, java.util.ArrayList"%>
+
+<%-- 
+<jsp:useBean id="regBean" class="emailList.EmailListDao"/>
+<jsp:setProperty name="regBean" property="*"  />
+--%>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +18,39 @@
 	<p>입력한 정보 내역입니다.</p>
 	<!-- 메일정보 리스트 -->
 	<%-- list에서 하나씩 빼서 테이블를 채운다--%>
+	<%
+	EmailListDao dao = new EmailListDao();
+	ArrayList<EmailListVo> list = dao.viewEmailList();
+	for(int i=0; i<list.size(); i++){
+//		out.println("<table border=\"1\" cellpadding=\"5\" cellspacing=\"2\">");
+//		out.println("<tr>");
+		String last_name = list.get(i).getLast_name();
+		String first_name = list.get(i).getFirst_name();
+		String email = list.get(i).getEmail();
+	%>
+	<table border="1" cellpadding="5" cellspacing="2">
+	<tr>
+		<td align=right width="110">Last name: </td>
+		<td width="170"><%= last_name %></td>
+	</tr>
+	<tr>
+		<td align=right >First name: </td>
+		<td><%= first_name %></td>
+	</tr>
+	<tr>
+		<td align=right>Email address: </td>
+		<td><%= email %></td>
+	</tr>
+	</table>
+	<br>
+	<%
+		//out.println("</table>");
+	}
+	%>
+	
+	
+	
+	
 	<table border="1" cellpadding="5" cellspacing="2">
 		<tr>
 			<td align=right width="110">Last name: </td>

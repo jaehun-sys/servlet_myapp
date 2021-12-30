@@ -1,0 +1,295 @@
+CREATE 	TABLE AUTHOR (
+	AUTHOR_ID		NUMBER(10)				,
+	AUTHOR_NAME		VARCHAR2(100)	NOT NULL,
+	AUTHOR_DESC		VARCHAR2(500)			,
+	PRIMARY KEY(AUTHOR_ID)
+);
+COMMIT;
+
+INSERT INTO AUTHOR 
+VALUES (1, '¹Ú°æ¸®', 'ÅäÁö ÀÛ°¡ ' );
+
+INSERT INTO author( author_id, author_name )
+VALUES (2, 'ÀÌ¹®¿­' );
+
+COMMIT;
+
+UPDATE 	AUTHOR
+SET 	AUTHOR_NAME = '±â¾È84'	, 
+		AUTHOR_DESC = 'À¥Å÷ÀÛ°¡' 
+WHERE 	AUTHOR_ID = 1 ;
+
+UPDATE 	AUTHOR
+SET 	AUTHOR_NAME = '°­Ç®'	, 
+		AUTHOR_DESC = 'ÀÎ±âÀÛ°¡' ;
+	
+UPDATE 	AUTHOR 
+SET		AUTHOR_NAME = '¾÷µ¥ÀÌÆ®µÈ ÀÛ°¡3' ,
+		AUTHOR_DESC = '¾÷µ¥ÀÌÆ®‰Ü ÀÛ°¡3ÀÇ »ó¼¼Á¤º¸' 
+WHERE 	AUTHOR_ID = 6;
+	
+DELETE FROM AUTHOR;
+
+DELETE 	
+FROM 	AUTHOR
+WHERE 	AUTHOR_ID = 6;
+
+COMMIT;
+
+SELECT * FROM AUTHOR;
+
+DROP 	SEQUENCE SEQ_AUTHOR_ID;
+CREATE 	SEQUENCE SEQ_AUTHOR_ID
+INCREMENT BY 	1
+START WITH		1;
+
+INSERT INTO AUTHOR 
+VALUES (SEQ_AUTHOR_ID.NEXTVAL, '¹Ú°æ¸®', 'ÅäÁö ÀÛ°¡');
+
+INSERT INTO AUTHOR 
+VALUES (SEQ_AUTHOR_ID.NEXTVAL, 'ÀÌ¹®¿­', '»ï±¹Áö ÀÛ°¡');
+
+INSERT INTO AUTHOR 
+VALUES (SEQ_AUTHOR_ID.NEXTVAL, 'À¯½Ã¹Î', '17´ë ±¹È¸ÀÇ¿ø');
+
+INSERT INTO AUTHOR 
+VALUES (SEQ_AUTHOR_ID.NEXTVAL, '±â¾È84', 'À¥Å÷ÀÛ°¡');
+
+INSERT INTO AUTHOR 
+VALUES (SEQ_AUTHOR_ID.NEXTVAL, '°­Ç®', '¿Â¶óÀÎ ¸¸È­°¡ 1¼¼´ë');
+
+INSERT INTO AUTHOR 
+VALUES (SEQ_AUTHOR_ID.NEXTVAL, '¾Æ¹«³ª', '¸ô¶ó¸ô¶ó¸ô¶ó');
+COMMIT;
+
+SELECT * FROM AUTHOR;
+
+CREATE TABLE BOOK (
+	BOOK_ID 	NUMBER(10)				,
+	TITLE 		VARCHAR2(100) NOT NULL	,
+	PUBS 		VARCHAR2(100)			,
+	PUB_DATE 	DATE					,
+	AUTHOR_ID 	NUMBER(10)				,
+	PRIMARY KEY(BOOK_ID),
+	CONSTRAINT C_BOOK_FK FOREIGN KEY (AUTHOR_ID)
+	REFERENCES AUTHOR(AUTHOR_ID)
+);
+
+CREATE 	SEQUENCE SEQ_BOOK_ID
+INCREMENT BY 	1
+START WITH		1;
+
+INSERT INTO BOOK
+VALUES (SEQ_BOOK_ID.NEXTVAL, '¿ì¸®µéÀÇ ÀÏ±×·¯Áø ¿µ¿õ', '´Ù¸²', '1998-02-22', 1);
+
+INSERT INTO BOOK
+VALUES (SEQ_BOOK_ID.NEXTVAL, '»ï±¹Áö', '¹ÎÀÀ»ç', '2002-03-01', 1);
+
+INSERT INTO BOOK
+VALUES (SEQ_BOOK_ID.NEXTVAL, 'ÅäÁö', '¸¶·Î´Ï¿¡ºÏ½º', '2012-08-15', 2);
+
+INSERT INTO BOOK
+VALUES (SEQ_BOOK_ID.NEXTVAL, 'À¯½Ã¹ÎÀÇ ±Û¾²±â Æ¯°­', '»ý°¢ÀÇ ±æ', '2015-04-01', 3);
+
+INSERT INTO BOOK
+VALUES (SEQ_BOOK_ID.NEXTVAL, 'ÆÐ¼Ç¿Õ', 'Áß¾ÓºÏ½º(books)', '2012-02-22', 4);
+
+INSERT INTO BOOK
+VALUES (SEQ_BOOK_ID.NEXTVAL, '26³â', 'Àç¹ÌÁÖÀÇ', '2012-02-04', 5);
+
+COMMIT;
+
+SELECT	B.BOOK_ID		,
+		B.TITLE			,
+		B.PUBS			,
+		B.PUB_DATE		,
+		A.AUTHOR_ID		,
+		A.AUTHOR_NAME	,
+		A.AUTHOR_DESC
+FROM 	BOOK	B,
+		AUTHOR	A
+WHERE 	B.AUTHOR_ID = A.AUTHOR_ID ;
+
+SELECT	B.BOOK_ID							AS BOOK_ID	,
+		B.TITLE								AS TITLE	,
+		B.PUBS								AS PUBS		,
+		TO_CHAR(B.PUB_DATE, 'YYYY-MM-DD')	AS PUB_DATE	,
+		A.AUTHOR_NAME						AS AUTHOR_NAME
+FROM 	BOOK	B,
+		AUTHOR	A
+WHERE 	B.AUTHOR_ID = A.AUTHOR_ID ;
+
+UPDATE 	AUTHOR 
+SET		AUTHOR_DESC = '¼­¿ïÆ¯º°½Ã'
+WHERE 	AUTHOR_NAME = '°­Ç®'		;
+
+DELETE 	
+FROM 	AUTHOR A
+WHERE 	A.AUTHOR_NAME = '±â¾È84';
+
+SELECT 	*
+FROM 	AUTHOR a; 
+
+SELECT *
+FROM   AUTHOR a 
+WHERE  AUTHOR_NAME = '¾ø¾î';
+
+SELECT 	*
+FROM 	BOOK b ;
+
+COMMIT;
+
+
+
+
+
+
+
+SELECT 	E.EMPLOYEE_ID		 AS employee_id		,    
+		E.FIRST_NAME		 AS employee_name	,   
+		E.HIRE_DATE 		 AS hire_date		,      
+		D.DEPARTMENT_NAME	 AS department_name	, 
+		M.FIRST_NAME		 AS manager_name	,   
+		E.SALARY			 AS salary 
+FROM	EMPLOYEES E, 
+		EMPLOYEES M, 
+		DEPARTMENTS D 
+WHERE E.MANAGER_ID = M.MANAGER_ID 
+AND   E.DEPARTMENT_ID = D.DEPARTMENT_ID ;
+
+
+UPDATE 	AUTHOR 
+SET		AUTHOR_NAME = '¯—', 
+		AUTHOR_DESC = 'Æ¡'		
+WHERE	AUTHOR_ID = 22 ;
+
+
+DROP TABLE TBLREGISTER;
+CREATE TABLE TBLREGISTER (
+	id 			VARCHAR(20) NOT NULL,
+	pwd 		VARCHAR(20) NOT NULL,
+	name 		CHAR(6) 	,--NULL DEFAULT NULL,
+	num1 		CHAR(6) 	,--NULL DEFAULT NULL,
+	num2 		CHAR(7) 	,--NULL DEFAULT NULL,
+	email	 	VARCHAR(30) ,--NULL DEFAULT NULL,
+	phone 		VARCHAR(30) ,--NULL DEFAULT NULL,
+	zipcode 	CHAR(5) 	,--NULL DEFAULT NULL,
+	address 	VARCHAR(60) ,--NULL DEFAULT NULL,
+	job 		VARCHAR(30) ,--NULL DEFAULT NULL,
+	PRIMARY KEY (id)
+);
+COMMIT;
+
+INSERT INTO TBLREGISTER 
+VALUES ('qwer', '123qwe', 'hi', 111, 222, 'us03098@gmail.com', '010-1234-2345', '02', 'seoul', 'job');
+
+
+
+
+
+DROP TABLE IF EXISTS tblMember;
+
+CREATE sequence seq_tblboard_no
+INCREMENT BY 1
+START WITH 1;
+SELECT seq_tblBoard_no.currval FROM dual;
+
+DROP TABLE TBLBOARD;
+CREATE TABLE TBLBOARD
+ (	NUM		 NUMBER(11,0), 
+	NAME 	 VARCHAR2(40), 
+	SUBJECT  VARCHAR2(100), 
+	CONTENT  VARCHAR2(500), 
+	POS 	 NUMBER(7,0), 
+	REF 	 NUMBER(7,0), 
+	DEPTH 	 NUMBER(7,0), 
+	REGDATE  DATE, 
+	PASS 	 VARCHAR2(30), 
+	IP 		 VARCHAR2(30), 
+	COUNT 	 NUMBER(7,0), 
+	FILENAME VARCHAR2(500), 
+	FILESIZE NUMBER(11,0), 
+	PRIMARY KEY (NUM)
+  ) ;
+SELECT * FROM TBLBOARD;
+
+insert INTO TBLBOARD(num, name,content,subject,ref,pos,depth,regdate,pass,count,ip,filename,filesize)
+values(seq_tblboard_no.nextval ,'aaa', 'bbb', 'ccc', 0, 0, 0, sysdate, '1111',0, '127.0.0.1', null, 0);
+
+CREATE TABLE tblMember (
+  id 		char(20) NOT NULL,
+  pwd 		char(20) NOT NULL,
+  name 		char(20) NOT NULL,
+  gender 	char(1)  NOT NULL,
+  birthday 	char(6)  NOT NULL,
+  email 	char(30) NOT NULL,
+  zipcode 	char(5)  NOT NULL,
+  address 	char(50) NOT NULL,
+  hobby 	char(5)  NOT NULL,
+  job 		char(20) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+DROP TABLE IF EXISTS tblZipcode;
+
+CREATE TABLE tblZipcode (
+  zipcode char(5)  NOT NULL,
+  area1   char(10) DEFAULT NULL,
+  area2   char(20) DEFAULT NULL,
+  area3   char(30) DEFAULT NULL
+);
+
+CREATE TABLE tblRegister(
+	id 		VARCHAR2(20 BYTE) 	NOT NULL PRIMARY KEY,
+	pwd 	VARCHAR2(20 BYTE) 	NOT NULL			,
+	name 	CHAR(15 BYTE) 		NULL				,
+	num1 	CHAR(6 BYTE) 		NULL				,
+	num2 	CHAR(7 BYTE) 		NULL				,
+	email 	VARCHAR2(30 BYTE) 	NULL				,
+	phone 	VARCHAR2(30 BYTE) 	NULL				,
+	zipcode CHAR(5 BYTE) 		NULL				,
+	address VARCHAR2(60 BYTE) 	NULL				,
+	job 	VARCHAR2(30 BYTE) 	NULL
+);
+
+SELECT 	E.EMPLOYEE_ID		 					AS employee_id		,    
+		E.FIRST_NAME		 					AS employee_name	,   
+		TO_CHAR(E.HIRE_DATE, 'YYYY"."MM"."DD')  AS hire_date		,      
+		D.DEPARTMENT_NAME	 					AS department_name	, 
+		M.FIRST_NAME		 					AS manager_name	,   
+		E.SALARY			 					AS salary 
+FROM	EMPLOYEES E, 
+		EMPLOYEES M, 
+		DEPARTMENTS D 
+WHERE E.MANAGER_ID = M.MANAGER_ID 
+AND   E.DEPARTMENT_ID = D.DEPARTMENT_ID
+--AND	  ROWNUM BETWEEN 0 AND 20
+ORDER BY E.EMPLOYEE_ID ;
+
+UPDATE 	AUTHOR 
+SET		AUTHOR_NAME = ¯—, 
+		AUTHOR_DESC = Æ¡		
+WHERE	AUTHOR_ID = 22 ;
+
+
+DROP SEQUENCE EMAILLIST_NO;
+CREATE sequence SEQUENCE_EMAILLIST_NO
+INCREMENT BY 1
+START WITH 1;
+
+CREATE TABLE EMAILLIST(
+	EMAILNO		NUMBER(11,0)		NOT NULL	,
+	LAST_NAME	VARCHAR(20 BYTE)	NOT NULL	,
+	FIRST_NAME	VARCHAR(20 BYTE) 	NOT NULL 	,
+	EMAIL 		VARCHAR(30 BYTE) 	NOT NULL 	,
+	PRIMARY KEY (EMAIL)
+);
+INSERT INTO EMAILLIST(EMAILNO, LAST_NAME, FIRST_NAME, EMAIL)
+VALUES (SEQUENCE_EMAILLIST_NO.NEXTVAL, '±è', '¹ä', 'kimbab@naver.com');
+INSERT INTO EMAILLIST(EMAILNO, LAST_NAME, FIRST_NAME, EMAIL)
+VALUES (SEQUENCE_EMAILLIST_NO.NEXTVAL, 'ÀÌ', '»¡', 'leebbal@naver.com');
+
+SELECT	LAST_NAME	,
+		FIRST_NAME	,
+		EMAIL
+FROM	EMAILLIST;
