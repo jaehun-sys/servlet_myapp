@@ -86,4 +86,39 @@ public class EmailListDao {
 		return success;
 	}
 	
+	public boolean delete(EmailListVo vo) {
+		boolean success = false;
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = pool.getConnection();
+			StringBuilder sql = new StringBuilder();
+			sql.append("DELETE 			  ");
+			sql.append("FROM 	EMAILLIST ");
+			sql.append("WHERE 	EMAILNO = ? ");
+			
+			pstmt = conn.prepareStatement(sql.toString());
+			
+			int index = 1;
+			pstmt.setString(index++, vo.getEmail());
+			
+			//실행 결과 리턴. sql 문장 실행 후, 변경된 row 수 int 타입으로 리턴
+			int r = pstmt.executeUpdate();
+			//pstmt.executeQuery() : select
+			//pstmt.executeUpdate() : insert, update, delete
+			System.out.println(r + "건 처리");
+			
+			success = true;
+			
+		}catch(Exception e){
+			System.err.println("SQL 에러: " + e.getMessage());
+		}finally{
+			pool.freeConnection(conn, pstmt);
+		}
+		
+		return success;
+	}
+	
 }
