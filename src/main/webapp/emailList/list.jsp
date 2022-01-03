@@ -22,8 +22,6 @@
 	EmailListDao dao = new EmailListDao();
 	ArrayList<EmailListVo> list = dao.viewEmailList();
 	for(int i=0; i<list.size(); i++){
-//		out.println("<table border=\"1\" cellpadding=\"5\" cellspacing=\"2\">");
-//		out.println("<tr>");
 		String last_name = list.get(i).getLast_name();
 		String first_name = list.get(i).getFirst_name();
 		String email = list.get(i).getEmail();
@@ -32,6 +30,8 @@
 	<tr>
 		<td align=right width="110">Last name: </td>
 		<td width="170"><%= last_name %></td>
+		<td rowspan="3" >수정</td>
+		<td rowspan="3" >삭제</td>
 	</tr>
 	<tr>
 		<td align=right >First name: </td>
@@ -44,7 +44,6 @@
 	</table>
 	<br>
 	<%
-		//out.println("</table>");
 	}
 	%>
 	
