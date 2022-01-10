@@ -45,7 +45,9 @@
 			<td><%= name %></td>
 			<td><%= regdate %></td>
 			<td><a href="deleteform.jsp?bookno=<%=bookno%>">삭제</a></td>
-		</tr>
+			<form action="delete.jsp">
+			<input type='hidden' name="bookno" value="<%=bookno%>">
+			</form>
 		<tr>
 			<td colspan=4><%= content %></td>
 		</tr>
